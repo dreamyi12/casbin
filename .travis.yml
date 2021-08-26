@@ -1,0 +1,33 @@
+language: php
+
+sudo: required
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+    
+services:
+  - mysql
+
+jobs:
+  fast_finish: true
+  include:
+    # Hyperf 2.2
+    - php: 7.3
+      env: PHPUNIT=^9.0 SWOOLE_VERSION="4.5.5"
+    - php: 7.4
+      env: PHPUNIT=^9.0 SWOOLE_VERSION="4.5.5"
+
+before_install:
+  - travis_retry composer self-update
+  - mysql -e 'create database if not exists `casbin-test`;'
+
+install:
+  - cd $TRAVIS_BUILD_DIR
+  - bash .travis/swoole.install.sh
+  - phpenv config-rm xdebug.ini || echo "xdebug not available"
+  - phpenv config-add .travis/ci.ini
+  - travis_retry composer install --no-suggest --no-interaction
+
+script:
+  - composer test
