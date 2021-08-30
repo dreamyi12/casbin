@@ -78,6 +78,8 @@ class DatabaseAdapter implements Adapter, BatchAdapter, UpdatableAdapter, Filter
         }
     }
 
+
+
     /**
      * savePolicyLine function.
      * @param string $type
@@ -141,6 +143,11 @@ class DatabaseAdapter implements Adapter, BatchAdapter, UpdatableAdapter, Filter
     {
         $row = $this->savePolicyLine($type, $rule);
         $this->eloquent->create($row);
+    }
+
+    public function updateFilteredPolicies(string $sec, string $ptype, array $newPolicies, int $fieldIndex, string ...$fieldValues): array
+    {
+        // TODO: Implement updateFilteredPolicies() method.
     }
 
     /**
