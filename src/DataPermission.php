@@ -32,8 +32,7 @@ trait DataPermission
      */
     public function updating(Updating $updating)
     {
-        $login = make(Login::class);
-        $user = $login->getUser();
+        $user = $this->login->getUser();
         if(!empty($user)){
             if (Schema::hasColumn($this->getTable(), 'update_user_id')) {
                 $this->setAttribute('update_user_id', $user['id']);
@@ -50,8 +49,7 @@ trait DataPermission
      */
     public function creating(Creating $creating)
     {
-        $login = make(Login::class);
-        $user = $login->getUser();
+        $user = $this->login->getUser();
         if(!empty($user)) {
             if (Schema::hasColumn($this->getTable(), 'org_id')) {
                 $this->setAttribute('org_id', $user['org_id']);
@@ -99,8 +97,7 @@ trait DataPermission
     {
         $model = $event->getModel();
         if (!empty($dataPermission)) {
-            $login = make(Login::class);
-            $user = $login->getUser();
+            $user = $this->login->getUser();
             if(!empty($user)){
                 //如果依据本身模型表的字段
                 if ($dataPermission['type'] == 'field') {
